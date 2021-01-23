@@ -4,7 +4,7 @@ import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
-import { AuthContext } from '../../context/AuthContext';
+import { AuthContext, SignInCredentials } from '../../context/AuthContext';
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import logoImg from '../../assets/logo.svg';
@@ -20,7 +20,7 @@ const SignIn: React.FC = () => {
   const { signIn } = useContext(AuthContext);
 
   const handleSubmit = useCallback(
-    async (data: object) => {
+    async (data: SignInCredentials) => {
       try {
         formRef.current?.setErrors({});
 
@@ -34,7 +34,10 @@ const SignIn: React.FC = () => {
         await schema.validate(data, {
           abortEarly: false,
         });
-        signIn();
+        signIn({
+          email: data.email,
+          password: data.password,
+        });
       } catch (err) {
         const errors = getValidationErrors(err);
 
