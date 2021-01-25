@@ -11,6 +11,7 @@ import { Container } from './styles';
 
 interface Toastprops {
   message: ToastMessage;
+  style: object;
 }
 
 const icons = {
@@ -19,7 +20,7 @@ const icons = {
   success: <FiCheckCircle size={24} />,
 };
 
-const Toast: React.FC<Toastprops> = ({ message }) => {
+const Toast: React.FC<Toastprops> = ({ message, style }) => {
   const { removeToast } = useToast();
 
   useEffect(() => {
@@ -33,7 +34,11 @@ const Toast: React.FC<Toastprops> = ({ message }) => {
   }, [message.id, removeToast]);
 
   return (
-    <Container hasDescription={!!message.description} type={message.type}>
+    <Container
+      style={style}
+      hasDescription={!!message.description}
+      type={message.type}
+    >
       {icons[message.type || 'info']}
 
       <div>
